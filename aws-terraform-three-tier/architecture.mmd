@@ -1,0 +1,21 @@
+flowchart TB
+    U[Internet users] --> ALB[Application Load Balancer<br/>Public subnets]
+    subgraph VPC[Amazon VPC 10.0.0.0/16]
+      subgraph PUB[Public subnets - AZ A and AZ B]
+        ALB
+        IGW[Internet Gateway]
+        NAT[NAT Gateway]
+      end
+      subgraph APP[Private application subnets]
+        EC2[EC2 web application<br/>No public IP]
+      end
+      subgraph DB[Private database subnets]
+        RDS[(Amazon RDS MySQL<br/>Public access disabled)]
+      end
+      ALB -->|HTTP 80, ALB SG to App SG| EC2
+      EC2 -->|MySQL 3306, App SG to DB SG| RDS
+      EC2 -->|Outbound updates| NAT
+      NAT --> IGW
+    end
+    VPC --> FLOW[VPC Flow Logs -> CloudWatch Logs]
+    CT[CloudTrail] --> S3[Private S3 bucket]

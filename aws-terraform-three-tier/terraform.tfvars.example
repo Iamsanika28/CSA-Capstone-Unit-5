@@ -1,0 +1,14 @@
+aws_region        = "ap-south-1"
+project_name      = "secure-three-tier"
+db_name           = "appdb"
+db_username       = "appadmin"
+instance_type     = "t3.micro"
+db_instance_class = "db.t3.micro"
+
+# Demo only. For a real deployment, restrict this to your trusted IP,
+# or configure HTTPS and a suitable access policy.
+allowed_http_cidr = "0.0.0.0/0"
+
+# Do not store a real password in this file or commit it to Git.
+# Supply it as an environment variable instead:
+# PowerShell: $env:TF_VAR_db_password = "Use-A-Strong-Unique-Password"
